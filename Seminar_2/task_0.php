@@ -3,7 +3,7 @@
 // $line = readline("Go -> ");
 // echo $line;
 // $d1 = new DateTime("2010")
-
+date_default_timezone_set("Europe/Moscow");
 
 function getComponents(string $stringValue): array | bool {
     $components = explode(", ", $stringValue);
@@ -14,18 +14,11 @@ function getComponents(string $stringValue): array | bool {
             return false;
         }
         else {
-            $dateValues = explode("-", $components[1]);
-            if (!count($dateValues) === 3) {
-                return false;
+            if (validateDate($components[1])) {
+                return $components;
             }
             else {
-                $correctDate = $dateValues[2] . "-" . $dateValues[1] . "-" . $dateValues[0]; 
-                if (!date_create_immutable($correctDate)) {
-                    return false;
-                }
-                else {
-                    return $components;
-                }
+                return false;
             }
         }
     }
@@ -34,7 +27,33 @@ function getComponents(string $stringValue): array | bool {
     }
 }
 
-$line = "Василий Васильев, 07-03-2002";
+function validateDate(string $date): bool {
+    $dateBlocks = explode("-", $date);
+
+    if(!(isset($dateBlocks) && count($dateBlocks) === 3)) {
+        return false;
+    }
+    $date = $dateBlocks[2] . "-" . $dateBlocks[1] . "-" . $dateBlocks[0];
+
+    if(!date_create_immutable($date)) {
+        return false;
+    }
+    $targetDate = date_create_from_format("d-m-Y", $date);
+    $currentDate = date_create_from_format("d-m-Y", date('d-m-Y'));
+    if ($targetDate > $currentDate) {
+        return false;
+    }
+    return true;
+}
+
+// $line = "Василий Васильев, 07-03-2002";
+$line = "Василий Иванович Васильев, 28-02-2010";
+// $v = str_replace("", "-", $v);
 $res = getComponents($line);
-$d = date_create_from_format("d-m-Y", $res[1]);
-var_dump($d);
+// $d = date_create_from_format("d-m-Y", $res[1]);
+// var_dump($d);
+
+var_dump($res);
+// $d = date_create_from_format("d-m-Y", $t);
+// $ch = ($v > $d);
+// var_dump($d);

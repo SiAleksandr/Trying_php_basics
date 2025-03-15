@@ -25,7 +25,10 @@ function readAllFunction(array $config) : string {
 function addFunction(array $config) : string {
     $address = $config['storage']['address'];
 
-    $name = readline("Введите имя: ");
+    $name = readline("Введите имя (можно отчество) и фамилию: ");
+    if(!validateName($name)) {
+        return(handleError("Некорректное именование человека"));
+    }
     $date = readline("Введите дату рождения в формате ДД-ММ-ГГГГ: ");
     if(!validateDate($date)) {
         return(handleError("Некорректно задана дата"));

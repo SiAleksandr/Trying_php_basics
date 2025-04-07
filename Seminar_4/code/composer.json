@@ -1,0 +1,9 @@
+{
+    "name": "hwapp/oop",
+    "autoload": {
+        "psr-4": {
+            "Hwapp\\Oop\\": "src/"
+        }
+    },
+    "require": {}
+}

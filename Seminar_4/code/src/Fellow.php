@@ -4,6 +4,10 @@ namespace Hwapp\Oop;
 
 class Fellow {
 
+    private static $lastId = 0;
+
+    private $Id;
+
     private string $name;
 
     private string $lastName;
@@ -16,15 +20,17 @@ class Fellow {
     (
         string $name, 
         string $lastName,
-        array $collection
+        array $vinylList
     ) {
+        $this->Id = self::$lastId;
+        self::$lastId += 1;
         $this->name = $name;
         $this->lastName = $lastName;
         $this->membership = array();
-        self::listAssign($vinylList);
+        $this->listAssign($vinylList);
     }
 
-    private static function listAssign(array $vinylList): void {
+    private function listAssign(array $vinylList): void {
         foreach($vinylList as $vinyl) {
             if($vinyl instanceof Vinyl) {
                 $vinil->decideTheOwner($this);
@@ -39,6 +45,10 @@ class Fellow {
         // а в остальных элементах = наименования виниловых пластинок
         // заданного в параметрах исполнителя\композитора 
         // из коллекции этого пользователя.
+    }
+
+    public function takeOneVinyl(string $targetName): bool {
+
     }
 
     // может быть получится совместить поиск конкретной пластинки

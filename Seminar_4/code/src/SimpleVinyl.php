@@ -33,7 +33,7 @@ class SimpleVinyl extends Vinyl {
         if($oldTurntablesSuitable) {
             $grade = "(подходит для старой техники)";
         } else {
-            $grade = "(не подходит для старой техники)"
+            $grade = "(НЕ подходит для старой техники)"
         }
         return parent::toString() . $grade . PHP_EOL;
     }

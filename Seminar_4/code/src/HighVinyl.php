@@ -2,7 +2,7 @@
 
 namespace Hwapp\Oop;
 
-class HighVinil extends Vinyl {
+class HighVinyl extends Vinyl {
 
     private string $colorsPresent;
 
@@ -12,19 +12,21 @@ class HighVinil extends Vinyl {
         string $contentName,
         int $releaseYear,
         string $briefNote = "",
-        string $colorsPresent = "black"
+        string $colorsPresent = "чёрный"
     ) {
         parent::__construct(
             $performerOrComposer,
             $contentName,
             $releaseYear,
-            $briefNote = ""
+            $briefNote
         );
         $this->colorsPresent = $colorsPresent;
     }
 
-    public function showColorsPresent(): string {
-        return $this->colorsPresent;
+    public function toString(): string {
+        return parent::toString() . 
+        "(ВЫСОКОЕ качество звука, НЕ подходит для старой техники)" . 
+        PHP_EOL . "Цвет(а) пластинки: " . $this->colorsPresent . PHP_EOL;
     }
     
 }

@@ -9,14 +9,39 @@ class Community {
 
     public function __construct(string $briefDescription, array $partakers) {
         $this->briefDescription = $briefDescription;
+        $this->partakersAssign($partakers);
+    }
+
+    public function partakersAssign(array $partakers): bool {
+        $test = 0;
         for($i = 0; $i < count($partakers); $i++) {
-            $partakers[$i]->joinCommunityAnyway($this);
+            if($partakers[$i]->inspectCollection()) {
+                $test += 1;
+            }           
         }
-        $this->partakersList = $partakers;
+        if($test == count($partakers)) {
+            $this->partakersList = $partakers;
+            foreach($partakers as $one) {
+                $one->joinCommunityAnyway($this);
+            }
+            return true;
+        }
+        return false;
     }
 
     public function getDescription(): string {
         return $this->briefDescription;
+    }
+
+    public function inspectPartakersList(): bool {
+        if(isset($this->partakersList)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getPartakersList(): array {
+        return $this->partakersList;
     }
 
     public function checkMembership($person): bool {
@@ -29,15 +54,25 @@ class Community {
     }
 
     public function addNew($person): bool {
-        array_push($this->partakersList, $person);
-        $person->joinCommunityAnyway($this);
-        return true;
+        if($person->inspectCollection() && !$this->checkMembership($person)) {
+            array_push($this->partakersList, $person);
+            $person->joinCommunityAnyway($this);
+            return true;
+        }
+        return false;
+    }
+
+    public function setRegion(string $region): void {
+        if(!isset($this->region)) {
+            $this->region = $region;
+        }
     }
 
     public function toString(): string {
         $res = $this->briefDescription . PHP_EOL;
         foreach($this->partakersList as $partaker) {
-            $res .= $partaker->getMy(); 
+            $res .= $partaker->getId() . " " 
+            . $partaker->getFullName() . PHP_EOL; 
         }
         return $res;
     }

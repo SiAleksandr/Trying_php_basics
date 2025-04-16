@@ -19,7 +19,7 @@ class SimpleVinyl extends Vinyl {
             $performerOrComposer,
             $contentName,
             $releaseYear,
-            $briefNote = ""
+            $briefNote
         );
         $this->oldTurntablesSuitable = $oldTurntablesSuitable;      
     }
@@ -28,12 +28,12 @@ class SimpleVinyl extends Vinyl {
         return $this->oldTurntablesSuitable;
     }
 
-    public function toString() {
-        $grade;
-        if($oldTurntablesSuitable) {
-            $grade = "(подходит для старой техники)";
+    public function toString(): string {
+        $grade = "(ОБЫЧНОЕ качество звука, ";
+        if($this->oldTurntablesSuitable) {
+            $grade .= "подходит для старой техники)";
         } else {
-            $grade = "(НЕ подходит для старой техники)"
+            $grade = "НЕ подходит для старой техники)";
         }
         return parent::toString() . $grade . PHP_EOL;
     }
